@@ -1,0 +1,100 @@
+/*Read the marks obtained by students of second year in an online examination of 
+particular subject. Find out maximum and minimum marks obtained in that subject. Use heap 
+data structure. Analyze the algorithm.insert all no of marks first then see output 
+PROGRAM: */
+#include <iostream>
+using namespace std;
+
+void MaxHeapify(int arr[], int i, int n) {
+    int largest = i;
+    int left = 2*i + 1;
+    int right = 2*i + 2;
+
+    if(left < n && arr[largest] < arr[left]) {
+        largest = left;
+    }
+            
+    if(right < n && arr[largest] < arr[right]) {
+        largest = right;
+    }
+
+    if(largest != i) {
+        swap(arr[i], arr[largest]);
+        MaxHeapify(arr, largest, n);
+    }
+}
+
+void MinHeapify(int arr[], int i, int n) {
+    int smallest = i;
+    int left = 2*i + 1;
+    int right = 2*i + 2;
+
+    if(left < n && arr[smallest] > arr[left]) {
+        smallest = left;
+    }
+            
+    if(right < n && arr[smallest] > arr[right]) {
+        smallest = right;
+    }
+
+    if(smallest != i) {
+        swap(arr[i], arr[smallest]);
+        MinHeapify(arr, smallest, n);
+    }
+}
+
+void MaxHeapSort(int a[], int n) {
+    // Build Max Heap
+    for(int i = n/2 - 1; i >= 0; i--)
+        MaxHeapify(a, i, n);
+
+    // Extract elements from heap one by one
+    for(int i = n - 1; i >= 0; i--) {
+        swap(a[0], a[i]);
+        MaxHeapify(a, 0, i);
+    }
+}
+
+void MinHeapSort(int a[], int n) {
+    // Build Min Heap
+    for(int i = n/2 - 1; i >= 0; i--)
+        MinHeapify(a, i, n);
+
+    // Extract elements from heap one by one
+    for(int i = n - 1; i >= 0; i--) {
+        swap(a[0], a[i]);
+        MinHeapify(a, 0, i);
+    }
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of students: ";
+    cin >> n;
+
+    int arr[n];
+    cout << "Enter the marks for each student:\n";
+    for(int i = 0; i < n; i++) {
+        cout << "Student " << (i + 1) << ": ";
+        cin >> arr[i];
+    }
+
+    MaxHeapSort(arr, n);
+
+    cout << "Sorted Data (Ascending): ";
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+
+    MinHeapSort(arr, n);
+
+    cout << "Sorted Data (Descending): ";
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+
+    cout << "Maximum Marks: " << arr[0] << endl;  
+    cout << "Minimum Marks: " << arr[n - 1] << endl;      
+
+    return 0;
+}
